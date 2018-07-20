@@ -18,7 +18,7 @@ app.use(
 );
 
 //Establish routes
-app.use('/jobs', require('./jobs'));
+// app.use('/jobs', require('./jobs'));
 
 app.use('/login', require('./login'));
 

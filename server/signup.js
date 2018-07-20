@@ -1,7 +1,7 @@
 const express = require('express');
 const db = require('../db/index.js');
-const app = express();
-const router = app.Router();
+const app = require('./index.js');
+const router = express.Router();
 
 // const bcrypt = require('bcrypt-nodejs');
 
@@ -11,13 +11,13 @@ router.post('/signup', function(req, res) {
   //check for instance of user
   //if not, add new User to DB
   //Else render 'Username already taken' prompt
-  let user = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    userName: req.body.userName,
-    email: req.body.email,
-    password: req.body.password
-  };
+  // let user = {
+  //   firstName: req.body.firstName,
+  //   lastName: req.body.lastName,
+  //   userName: req.body.userName,
+  //   email: req.body.email,
+  //   password: req.body.password
+  // };
 
   // let user = {
   //   firstName: 'Ningyi',

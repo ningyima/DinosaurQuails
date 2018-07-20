@@ -24,7 +24,6 @@ let userSchema = mongoose.Schema({
 let User = mongoose.model('User', userSchema);
 
 let createUser = (user, callback) => {
-  console.log('signup', user);
   User.findOne({ email: user.email }, (err, existingUser) => {
     if (err) {
       callback(err, null);
@@ -57,6 +56,20 @@ let createUser = (user, callback) => {
   });
 };
 
+let login = (query, callback) => {
+  User.findOne({ email: query.email }, (err, user) => {
+    if (err) {
+      callback(err, null);
+    }
+
+    if (!user) {
+      callback(null, { messageCode: 103, message: 'User does not exist' });
+    } else {
+      callback(null, user);
+    }
+  });
+};
+
 // ADD JOB SCHEMA
 let jobSchema = mongoose.Schema({
   userId: String,
@@ -84,3 +97,4 @@ let Job = mongoose.model('Job', jobSchema);
 
 // module.exports.db = db;
 module.exports.createUser = createUser;
+module.exports.login = login;
