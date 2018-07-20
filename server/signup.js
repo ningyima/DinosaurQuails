@@ -38,6 +38,7 @@ router.post('/signup', function(req, res) {
 
 router.get('/signup', function(req, res) {
   //render signup modal
+  res.sendFile(path.join(__dirname, '../client/dist/signup.html'));
 });
 
 module.exports = router;
