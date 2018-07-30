@@ -9,6 +9,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 
+// This is the component for creating a new job. Since we need to host a form in the component, follow
+// the React Design Patterns rules, we are using a stateful component with local states to dynamically
+// take care of the events.
+
 class CreateJob extends React.Component {
     constructor(props) {
         super(props);
@@ -33,11 +37,14 @@ class CreateJob extends React.Component {
         this.createNewJob = this.createNewJob.bind(this);
     }
 
+    // Here is only close the modal when click the button.
+    // Eventally, we should handle when click the outside of the modal, still close the modal.
     handleClose() {
         this.setState({ open: false });
         this.props.onClose();
     }
 
+    // Follow the React Best Practice Design Patterns to dynamiclly updates the state
     handleChange(event) {
         var target = event.target;
         var value = target.value;
@@ -48,11 +55,15 @@ class CreateJob extends React.Component {
         });
     }
 
+    // Event listener for create a new job, and bubble the event back to trigger the
+    // Ajax call from the main component.
+    // Eventually, we should have form validation for this part.
     createNewJob() {
         console.log(this.state);
         this.props.onSubmit(this.state);
     }
 
+    // JSX renders html elements
     render() {
         return (
             <div>

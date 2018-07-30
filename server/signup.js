@@ -15,6 +15,8 @@ router.post('/signup', function(req, res) {
     password: req.body.password
   };
 
+  // talk with db to create a create
+  // Eventally, we need to do form validation from server side, but we don't have right now.
   db.createUser(user, (err, data) => {
     if (err) {
       res.sendStatus(500);

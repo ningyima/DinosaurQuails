@@ -10,6 +10,9 @@ login.post('/login', function(req, res) {
     email: req.body.email,
     password: req.body.password
   };
+
+  // Eventually, we should have server side form validation before talking to DB,
+  // because DB transaction is sort of expensive
   db.login(query, (err, data) => {
     if (err) {
       res.sendStatus(500);

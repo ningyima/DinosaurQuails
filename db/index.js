@@ -1,9 +1,12 @@
+// This is the main file to host mongoose, we are using bcrypt-nodejs middleware
+// to hash the password
 const mongoose = require('mongoose');
 const hash = require('./helper.js');
 const bcrypt = require('bcrypt-nodejs');
 
-const DB = process.env.MONGODB_URI || 'mongodb://localhost/dinasour'
+const DB = process.env.MONGODB_URI || 'mongodb://localhost/dinasour';
 
+// Connect with Mongo DB
 mongoose.connect(DB);
 
 const db = mongoose.connection;
@@ -16,8 +19,7 @@ db.once('open', function() {
   console.log('Mongoose connected');
 });
 
-
-//TODO: ADD USER SCHEMA
+//ADD USER SCHEMA
 let userSchema = mongoose.Schema({
   firstName: String,
   lastName: String,
@@ -26,7 +28,7 @@ let userSchema = mongoose.Schema({
   password: String
 });
 
-//TODO: ADD USER MODEL for user db
+//ADD USER MODEL for user db
 let User = mongoose.model('User', userSchema);
 
 let createUser = (user, callback) => {
@@ -44,16 +46,21 @@ let createUser = (user, callback) => {
     } else {
       hash.hashPass(user, (err, userResult) => {
         let newUser = new User(userResult);
-        newUser.save().then(data => {
-          callback(null, data)
-        }).catch(error => {
-          callback(error, null)
-        })
+        newUser
+          .save()
+          .then(data => {
+            callback(null, data);
+          })
+          .catch(error => {
+            callback(error, null);
+          });
       });
     }
   });
 };
 
+// Logic to take care of user login, first check if the login user is an existing user or not
+// secondly, check if the user password is valid.
 let login = (query, callback) => {
   User.findOne({ email: query.email }, (err, user) => {
     if (err) {
@@ -99,7 +106,7 @@ let jobSchema = mongoose.Schema({
 // ADD JOB MODEL
 let Job = mongoose.model('Job', jobSchema);
 
-let createJob = (fieldInfo, callback) => { 
+let createJob = (fieldInfo, callback) => {
   console.log('fieldInfo', fieldInfo);
 
   let jobOpportunity = new Job({
@@ -108,9 +115,8 @@ let createJob = (fieldInfo, callback) => {
       name: fieldInfo.name,
       jobTitle: fieldInfo.jobTitle,
       webSite: fieldInfo.webSite,
-      logoUrl: fieldInfo.logoUrl,  //* add to field info
+      logoUrl: fieldInfo.logoUrl, //* add to field info
       payRange: fieldInfo.payRange //* add to feild info
-     
     },
     contact: {
       email: fieldInfo.email,
@@ -135,31 +141,27 @@ let createJob = (fieldInfo, callback) => {
   });
 };
 
+// Fetch all of the jobs belong to the login user and send back to UI
 const getJobs = (query, callback) => {
   console.log(query);
-  Job.find(query)
-    .sort({postDate: 'desc'})
-    .then(jobs => callback(null, jobs))
-    .catch(err => callback(err, null));
-}
+  Job.find(query).sort({ postDate: 'desc' }).then(jobs => callback(null, jobs)).catch(err => callback(err, null));
+};
 
-//EXPORT MODELS
-
+// Update a particular job
 const updateJob = (update, callback) => {
   // take info from update job except job id
   // use job id to search for specific job by id
-  console.log('update: ', update)
+  console.log('update: ', update);
   Job.findByIdAndUpdate(update.id, update.edits)
     .then(result => callback(null, result))
     .catch(err => callback(err, null));
-}
+};
 
+// Delete a particular job
 const removeJob = (remove, callback) => {
   // just pass the _.id through.
-  Job.findByIdAndDelete(remove._id)
-    .then(result => callback(null, result))
-    .catch(err => callback(err, null));
-}
+  Job.findByIdAndDelete(remove._id).then(result => callback(null, result)).catch(err => callback(err, null));
+};
 
 // module.exports.db = db;
 module.exports.updateJob = updateJob;
