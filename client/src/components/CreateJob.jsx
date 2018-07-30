@@ -24,6 +24,7 @@ class CreateJob extends React.Component {
             appliedDate: '',
             interviewedDate: '',
             coverLetterUrl: '',
+            payRange: '',
             state: '',
             open: true
         };
@@ -68,7 +69,7 @@ class CreateJob extends React.Component {
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
                             <div>
-                                <label>Name:</label>
+                                <label>Company name:</label>
                                 <input
                                     type="text"
                                     name="name"
@@ -175,6 +176,17 @@ class CreateJob extends React.Component {
                                     type="text"
                                     name="coverLetterUrl"
                                     value={this.state.coverLetterUrl}
+                                    onChange={e => {
+                                        this.handleChange(e);
+                                    }}
+                                />
+                            </div>
+                            <div>
+                                <label>Salary:</label>
+                                <input
+                                    type="text"
+                                    name="payRange"
+                                    value={this.state.payRange}
                                     onChange={e => {
                                         this.handleChange(e);
                                     }}

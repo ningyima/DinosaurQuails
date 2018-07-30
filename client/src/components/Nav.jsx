@@ -29,7 +29,7 @@ const Nav = props => (
             {props.isLoggedIn ? (
               <div>
                 <Button color="inherit" id="Create" onClick={() => props.displayCreateJob('create')}>
-                  Create
+                  Add
                 </Button>
                 <Button color="inherit" id="logout" onClick={() => props.displayLoginSignup('logout')}>Logout</Button>
               </div>
